@@ -1,7 +1,49 @@
-import {signInAction} from './action'
+import {signInAction, signOoutAction} from './action'
 import {push} from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 
+export const listenAuthState = () => {
+    return async (dispatch) => {
+        //認証されていなければ、falshyな値であるnullが返ってくる。
+        return auth.onAuthStateChanged(user => {
+            if (user) {
+                const uid = user.uid
+
+                    db.collection('users').doc(uid).get()
+                        .then(snapshot => {
+                            const data = snapshot.data()
+
+                            dispatch(signInAction({
+                                isSignedIn: true,
+                                role: data.role,
+                                uid: uid,
+                                username: data.username
+                            }))
+                            dispatch(push('/'))
+                        })
+            } else {
+                dispatch(push('/signin'))
+            }
+        })
+    }
+}
+
+export const resetPassword = (email) => {
+    return async (dispatch) => {
+        if (email === "") {
+            alert("必須項目が未入力です");
+            return false
+        } else {
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    alert('入力されたアドレスにパスワードリセット用のメールをお送りしました。')
+                    dispatch(push('/signin'))
+                }).catch(() => {
+                    alert('パスワードリセットに失敗しました。')
+                })
+        }
+    }
+}
 
 export const signIn = (email, password) => {
     return async (dispatch) => {
@@ -77,5 +119,15 @@ export const signUp = (username, email, password, confirmPassword) => {
                 }
             })
 
+    }
+}
+
+export const signOut = () => {
+    return async (dispatch) => {
+        auth.signOut()
+            .then(() => {
+                dispatch(signOoutAction())
+                dispatch(push('/signin'))
+            })
     }
 }
