@@ -15,7 +15,7 @@ ReactDOM.render(
   //providerでラッピングしてあげることで、appの中（アプリ全体)で使えるようになる。
   <Provider store={store}>
       <ConnectedRouter history={history}>
-          <App />
+        <App />
       </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
