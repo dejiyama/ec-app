@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
+import createStore from './reducks/store/store'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as History from 'history'
+import { ConnectedRouter } from 'connected-react-router'
+
+const history = History.createBrowserHistory()
+
+export const store = createStore(history)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  //providerでラッピングしてあげることで、appの中（アプリ全体)で使えるようになる。
+  <Provider store={store}>
+      <ConnectedRouter history={history}>
+          <App />
+      </ConnectedRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
