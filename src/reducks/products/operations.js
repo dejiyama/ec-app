@@ -1,9 +1,9 @@
 import { push } from 'connected-react-router'
-import {db,FirebaseTimestamp} from '../../firebase'
+import {db,FirebaseTimestamp} from '../../firebase/index'
 
 const productsRef = db.collection('products')
 
-export const saveProduct = (id, name, description, category, gender, price, images) => {
+export const saveProduct = (id, name, description, category, gender, price, sizes, images) => {
     return async (dispatch) => {
         const timestamp = FirebaseTimestamp.now()
 
@@ -14,15 +14,15 @@ export const saveProduct = (id, name, description, category, gender, price, imag
             name: name,
             images: images,
             price: parseInt(price, 10),
+            sizes: sizes,
             updated_at: timestamp
         }
         if (id === "") {
             const ref = productsRef.doc()
         //firebaseが自動で採番してくれたidを取得することができる。
-            id = ref.id
-            data.id = id
-            data.created_at = timestamp
-    
+            data.created_at = timestamp;
+            id = ref.id;
+            data.id = id;
         }
         
         //setメソッドは完全に情報を上書きしてしまうので、marge: trueを利用しよう
