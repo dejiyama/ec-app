@@ -8,6 +8,11 @@ export const ProductsReducer = (state = initialState.products, action) => {
                 ...state,
                 list: [...action.payload]
             };
+            case Actions.DELETE_PRODUCTS:
+            return {
+                ...state,
+                list: [...action.payload]
+            };
         default:
             return state
     }
