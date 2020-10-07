@@ -16,7 +16,7 @@
 .c-main {
     padding: 96px 0
 }
-.c-section-wrapin {
+.c-section-wraping {
     margin: 0 auto;
     max-width: 575px;
     position: relative;
@@ -160,7 +160,7 @@
     }
 
     /*********** Section ***********/
-    .c-section-wrapin {
+    .c-section-wraping {
         max-width: 1024px;
     }
 }

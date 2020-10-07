@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     }
 })
 
-const CartListitem = (props) => {
+const CartListItem = (props) => {
     const classes = useStyles()
     const selector = useSelector((state) => state)
     const uid = getUserId(selector)
@@ -60,4 +60,4 @@ const CartListitem = (props) => {
     )
 }
 
-export default CartListitem
+export default CartListItem
