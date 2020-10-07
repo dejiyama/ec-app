@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '100%'
     },
     price: {
-        color: theme.palette.secondary,
+        color: theme.palette.secondary.dark,
         fontSize: 16
     }
 }));
