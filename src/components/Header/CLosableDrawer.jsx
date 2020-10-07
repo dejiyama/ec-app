@@ -64,6 +64,10 @@ const ClosableDrawer = (props) => {
                 classes={{paper: classes.drawerPaper}}
                 ModalProps={{keepMounted: true}}
             >
+                <div 
+                    onClose={(e) => props.onClose(e)}
+                    onKeyDown={(e) => props.onClose(e)}
+                />
                 <div>
                     <div className={classes.searchField}>
                         <TextInput
