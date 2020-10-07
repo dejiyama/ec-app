@@ -6,6 +6,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as History from 'history'
 import { ConnectedRouter } from 'connected-react-router'
+import { MuiThemeProvider } from '@material-ui/core';
+import {theme} from "./assets/theme"
 
 const history = History.createBrowserHistory()
 
@@ -15,7 +17,9 @@ ReactDOM.render(
   //providerでラッピングしてあげることで、appの中（アプリ全体)で使えるようになる。
   <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
       </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
