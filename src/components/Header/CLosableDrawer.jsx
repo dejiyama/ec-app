@@ -1,5 +1,4 @@
 import { Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
-import { SearchRounded } from '@material-ui/icons'
 import React, { useCallback, useState } from 'react'
 import {TextInput} from '../Uikit/index'
 import SearchIcon from '@material-ui/icons/Search'
@@ -64,6 +63,10 @@ const ClosableDrawer = (props) => {
                 classes={{paper: classes.drawerPaper}}
                 ModalProps={{keepMounted: true}}
             >
+                <div 
+                    onClose={(e) => props.onClose(e)}
+                    onKeyDown={(e) => props.onClose(e)}
+                />
                 <div>
                     <div className={classes.searchField}>
                         <TextInput
