@@ -44,6 +44,8 @@ const OrderConfirm = () => {
 
     const order = useCallback(() => {
         dispatch(orderProduct(productsInCart, total))
+        //[{},{}]
+        console.log(productsInCart, 'productsincart');
     },[productsInCart])
 
     return (
@@ -52,7 +54,6 @@ const OrderConfirm = () => {
                 <div className="p-grid__row">
                     <div className={classes.detailBox}>
                         <List>
-                            {console.log('hi')}
                             {productsInCart.length > 0 && (
                                 productsInCart.map(product => <CartListItem product={product} key={product.cartId} />)
                             )}

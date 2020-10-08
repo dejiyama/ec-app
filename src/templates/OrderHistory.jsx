@@ -23,8 +23,9 @@ const useStyles = makeStyles ((theme) => ({
 const OrderHistory = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const selector = useSelector((state) => state)
+    const selector = useSelector(state => state)
     const orders = getOrdersHistory(selector)
+    
 
     useEffect(() => {
         dispatch(fetchOrdersHistory())

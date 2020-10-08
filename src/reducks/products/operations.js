@@ -43,7 +43,7 @@ export const orderProduct = (productsInCart, amount) => {
             const snapshot = await productsRef.doc(product.productId).get();
             const sizes = snapshot.data().sizes;
 
-            console.log(product.size, 'batch product');
+            console.log(product, 'batch product');
 
             const updatedSizes = sizes.map(size => {
                 if (size.size === product.size) {
@@ -102,9 +102,9 @@ export const orderProduct = (productsInCart, amount) => {
                     }
 
                     orderRef.set(history);
+
                     dispatch(push('/order/complate'))
-                }).catch((e) => {
-                    console.error(e, 'hi');
+                }).catch(() => {
                     alert('注文処理に失敗しました。通信環境をご確認に植え、もう一度お試しください。')
                     return false
                     
