@@ -71,7 +71,7 @@ const ProductDetail = () => {
             price: product.price,
             productId: product.id,
             quantity: 1,
-            sizes: selectedSize
+            size: selectedSize
         }))
     }, [product])
 
@@ -86,7 +86,7 @@ const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small"/>
-                        <SizeTable addProduct={addProduct}sizes={product.sizes}/>
+                        <SizeTable addProduct={addProduct} sizes={product.sizes}/>
                         <div className="module-spacer--small"/>
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>
