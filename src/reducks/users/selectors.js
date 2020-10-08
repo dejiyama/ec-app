@@ -21,3 +21,8 @@ export const getProductsInCart = createSelector(
     [usersSelector],
     state => state.cart
 )
+
+export const getOrdersHistory = createSelector(
+    [usersSelector],
+    state => state.orders
+)
