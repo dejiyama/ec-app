@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/styles'
 import { push } from 'connected-react-router'
 import React, { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import CartListitem from '../components/Products/CartListitem'
+import { CartListItem } from '../components/Products'
+
 import { GreyButton } from '../components/Uikit'
 import PrimaryButton from '../components/Uikit/PrimaryButton'
 import {getProductsInCart} from '../reducks/users/selectors'
@@ -37,7 +38,7 @@ const CartList = () => {
             </h2>
             <List className={classes.root}>
                 {productsInCart.length > 0 && (
-                    productsInCart.map(product => <CartListitem key={product.cartId} product={product}/>)
+                    productsInCart.map(product => <CartListItem key={product.cartId} product={product}/>)
                 )}
             </List>
             <div className="module-spacer--medium" />
