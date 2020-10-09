@@ -72,7 +72,7 @@ const ProductEdit = () => {
                 setCategories(list)
             })
             
-    })
+    },[])
 
     return(
         <section>

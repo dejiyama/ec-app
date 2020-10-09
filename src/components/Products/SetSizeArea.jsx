@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 })
 
 const SetSizeArea = (props) => {
-    console.log(props);
     const classes = useStyles()
 
     const [index, setIndex] = useState(0),
