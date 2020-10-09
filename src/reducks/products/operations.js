@@ -15,9 +15,13 @@ export const deleteProduct = (id) => {
     }
 }
 
-export const fetchProducts = () => {
+export const fetchProducts = (gender, category) => {
     return async (dispatch) => {
-        productsRef.orderBy('updated_at','desc').get()
+        let query = productsRef.orderBy('updated_at','desc');
+        query = (gender !== "") ? query.where('gender', '==', gender): query;
+        query = (category !== "") ? query.where('category', '==', category): query;
+
+        query.get()
             .then(snapshots => {
                 const productList =[]
                 snapshots.forEach(snapshot => {
@@ -42,8 +46,6 @@ export const orderProduct = (productsInCart, amount) => {
         for (const product of productsInCart) {
             const snapshot = await productsRef.doc(product.productId).get();
             const sizes = snapshot.data().sizes;
-
-            console.log(product, 'batch product');
 
             const updatedSizes = sizes.map(size => {
                 if (size.size === product.size) {
