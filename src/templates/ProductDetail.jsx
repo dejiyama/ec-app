@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { db, FirebaseTimestamp } from '../firebase'
 import HTMLReactParser from "html-react-parser"
 import { ImageSwiper, SizeTable } from '../components/Products'
-import { addProductToCart } from '../reducks/users/operations'
+import { addProductToCart, addProductToFavorite } from '../reducks/users/operations'
 
 const useStyle = makeStyles((theme) => ({
     sliderBox: {
@@ -52,11 +52,13 @@ const ProductDetail = () => {
     const path = selector.router.location.pathname
     const id = path.split('/product/')[1]
     const [product, setProduct] = useState(null)
+    const [favorite, setFavorite] = useState(null)
     useEffect(() =>{
         db.collection('products').doc(id).get()
             .then(doc => {
                 const data = doc.data()
                 setProduct(data)
+                setFavorite(data)
             })
     }, [])
 
@@ -75,6 +77,21 @@ const ProductDetail = () => {
         }))
     }, [product])
 
+    const addFavorite = useCallback((selectedSize) => {
+        const timestamp = FirebaseTimestamp.now()
+        dispatch(addProductToFavorite({
+            added_at: timestamp,
+            description: favorite.description,
+            gender: favorite.gender,
+            images: favorite.images,
+            name: favorite.name,
+            price: favorite.price,
+            productId: favorite.id,
+            quantity: 1,
+            size: selectedSize
+        }))
+    }, [favorite])
+
     return (
         <section className={"c-section-wraping"}>
             {product && (
@@ -86,7 +103,7 @@ const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small"/>
-                        <SizeTable addProduct={addProduct} sizes={product.sizes}/>
+                        <SizeTable addProduct={addProduct} addFavorite={addFavorite} sizes={product.sizes}/>
                         <div className="module-spacer--small"/>
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>

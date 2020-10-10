@@ -1,4 +1,4 @@
-import {fetchOrdersHistoryAction,fetchProductsInCartAction, signInAction, signOoutAction} from './action'
+import {fetchOrdersHistoryAction,fetchProductsInCartAction, signInAction, signOoutAction, fetchProductsinFavoriteAction} from './action'
 import {push} from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 
@@ -9,6 +9,17 @@ export const addProductToCart = (addedProduct) => {
         addedProduct['cartId'] = cartRef.id;
         await cartRef.set(addedProduct)
         dispatch(push('/'))
+
+    }
+}
+
+export const addProductToFavorite = (addedProduct) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid
+        const favoriteRef = db.collection('users').doc(uid).collection('favorite').doc()
+        addedProduct['favoriteId'] = favoriteRef.id;
+        await favoriteRef.set(addedProduct)
+        alert('お気に入りに追加しました。ヘッダーのお気に入りボタンから、お気に入り商品の確認・削除ができます。')
 
     }
 }
@@ -35,6 +46,12 @@ export const fetchOrdersHistory = () => {
 export const fetchProductsInCart = (products) => {
     return async (dispatch) => {
         dispatch(fetchProductsInCartAction(products))
+    }
+}
+
+export const fetchProductsinFavorite = (products) => {
+    return async (dispatch) => {
+        dispatch(fetchProductsinFavoriteAction(products))
     }
 }
 export const listenAuthState = () => {
