@@ -79,7 +79,7 @@ const HeaderMenus = (props) => {
                     <ShoppingCartIcon />
                 </Badge>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => dispatch(push('/favorite'))}>
                 <FavoriteBorderIcon />
             </IconButton>
             <IconButton onClick={(event) => props.handleDrawerToggle(event)}>
