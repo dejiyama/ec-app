@@ -40,7 +40,9 @@ const SizeTable = (props) => {
                                     )}
                                 </TableCell>
                                 <TableCell className={classes.iconCell}>
-                                    <IconButton onClick={() => props.addFavorite(size.size)}>
+                                    {/* onClickはアロー関数の仮引数でeventを取得することができる */}
+                                    {/* onClickのタイミングでdiableをtrueにする。 */}
+                                    <IconButton onClick={() => (props.addFavorite(size.size),alert('お気に入りに追加しました。ヘッダーのお気に入りボタンから、お気に入り商品の確認・削除ができます。'))} >
                                         <FavoriteBorderIcon />
                                     </IconButton>
                                 </TableCell>

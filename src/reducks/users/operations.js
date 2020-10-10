@@ -19,8 +19,6 @@ export const addProductToFavorite = (addedProduct) => {
         const favoriteRef = db.collection('users').doc(uid).collection('favorite').doc()
         addedProduct['favoriteId'] = favoriteRef.id;
         await favoriteRef.set(addedProduct)
-        alert('お気に入りに追加しました。ヘッダーのお気に入りボタンから、お気に入り商品の確認・削除ができます。')
-
     }
 }
 

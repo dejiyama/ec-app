@@ -28,7 +28,7 @@ const FavoriteList = () => {
     return (
         <section className="c-section-wraping">
             <h2 className="u-text__headline">
-                ショッピングカート
+                お気に入り商品
             </h2>
             <List className={classes.root}>
                 {productsInFavorite.length > 0 && (
