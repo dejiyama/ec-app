@@ -18,7 +18,7 @@ const ProductList = () => {
     },[query])
 
     return (
-        <section className="c-section-wrapin">
+        <section className="c-section-wraping">
             <div className="p-grid__row">
                 {products.length > 0 && (
                     products.map(product => (
