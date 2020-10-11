@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signOut } from '../../reducks/users/operations'
 import { db } from '../../firebase'
+import { fetchProductsAction } from '../../reducks/products/action'
+import { fetchProducts } from '../../reducks/products/operations'
 
 
 const useStyles = makeStyles((theme) =>({
@@ -34,12 +36,6 @@ const ClosableDrawer = (props) => {
     const {container} = props
     const dispatch = useDispatch()
 
-    const [keyword, setKeyword] = useState("")
-
-    const inputKeyword = useCallback((event) => {
-        setKeyword(event.target.value)
-    },[setKeyword])
-
     const selectMenu = (event, path) => {
         dispatch(push(path))
         props.onClose(event)
@@ -48,19 +44,47 @@ const ClosableDrawer = (props) => {
     const [filters, setFilters] = useState([
         {func: selectMenu, label: "すべて", id: "all", value: "/"},
         {func: selectMenu, label: "メンズ", id: "male", value: "/?gender=male"},
-        {func: selectMenu, label: "レディース", id: "female", value: "/?gender=female"},
-
-
+        {func: selectMenu, label: "レディース", id: "female", value: "/?gender=female"}
     ])
 
     const menus = [
         {func: selectMenu, label: "商品登録", icon: <AddCircleIcon />, id: "register", value: "/product/edit"},
         {func: selectMenu, label: "注文履歴", icon: <HistoryIcon/>, id: "history", value: "/order/history"},
         {func: selectMenu, label: "プロフィール", icon: <PersonIcon/>, id: "profile", value: "/user/mypage"},
-
     ];
 
+    const [products, setProducts] = useState([])
+
+    const [keyword, setKeyword] = useState("")
+
+    const inputKeyword = useCallback((event) => {
+        setKeyword(event.target.value)
+    },[setKeyword])
+
+    //検索機能
+    const searchKeyWordProduct = (event) => {
+        const productList =[]
+        products.filter(product => {
+            if (product.name.includes(keyword)){
+                productList.push(product)                
+            }
+        })
+        dispatch(push(`/?product=${keyword}`))
+        dispatch(fetchProductsAction(productList))
+        props.onClose(event)
+    }
+
     useEffect(() => {
+        db.collection('products')
+            .get()
+            .then(snapshots => {
+                const list = []
+                    snapshots.forEach(snapshot => {
+                        const product = snapshot.data()
+                        list.push(product)
+                    })
+                    setProducts(prevState => [...prevState, ...list])
+            })
         db.collection('categories')
             .orderBy('order','asc')
             .get()
@@ -73,7 +97,6 @@ const ClosableDrawer = (props) => {
                     setFilters(prevState => [...prevState, ...list])
             })
     },[])
-
 
     return (
         <nav className={classes.drawer}>
@@ -96,7 +119,7 @@ const ClosableDrawer = (props) => {
                             fullWidth={false} label={'キーワードを入力'} multiline={false}
                             onChange={inputKeyword} required={false} rows={1} value={keyword} type={"text"}
                         />
-                        <IconButton>
+                        <IconButton onClick={(e) => searchKeyWordProduct(e)}>
                             <SearchIcon />
                         </IconButton>
                     </div>
