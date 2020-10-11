@@ -13,9 +13,10 @@ const ProductList = () => {
     const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : ""
     const category = /^\?category=/.test(query) ? query.split('?category=')[1] : ""
     const keyWord = /^\?product=/.test(query) ? query.split('?product=')[1] : "" 
+    const decodeKeyWord = decodeURI(keyWord)
 
     useEffect(() => {
-        dispatch(fetchProducts(gender, category, keyWord))
+        dispatch(fetchProducts(gender, category, decodeKeyWord))
     },[query])
 
     return (

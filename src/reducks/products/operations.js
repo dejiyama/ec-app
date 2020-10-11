@@ -15,9 +15,9 @@ export const deleteProduct = (id) => {
     }
 }
 
-export const fetchProducts = (gender, category, keyWord) => {
+export const fetchProducts = (gender, category, decodeKeyWord) => {
     return async (dispatch) => {
-        if(keyWord !== "") {
+        if(decodeKeyWord !== "") {
             productsRef.get()
                 .then(snapshots => {
                     const lists = []
@@ -26,7 +26,7 @@ export const fetchProducts = (gender, category, keyWord) => {
                             const products = []
                             products.push(product)
                             products.filter(product => {
-                                if (product.name.includes(keyWord)) {
+                                if (product.name.includes(decodeKeyWord)) {
                                     lists.push(product)
                                 }
                             })
