@@ -53,8 +53,6 @@ const ClosableDrawer = (props) => {
         {func: selectMenu, label: "プロフィール", icon: <PersonIcon/>, id: "profile", value: "/user/mypage"},
     ];
 
-    const [products, setProducts] = useState([])
-
     const [keyword, setKeyword] = useState("")
 
     const inputKeyword = useCallback((event) => {
@@ -62,29 +60,14 @@ const ClosableDrawer = (props) => {
     },[setKeyword])
 
     //検索機能
+    //検索機能をoperationで行う
     const searchKeyWordProduct = (event) => {
-        const productList =[]
-        products.filter(product => {
-            if (product.name.includes(keyword)){
-                productList.push(product)                
-            }
-        })
         dispatch(push(`/?product=${keyword}`))
-        dispatch(fetchProductsAction(productList))
         props.onClose(event)
+        setKeyword("")
     }
 
     useEffect(() => {
-        db.collection('products')
-            .get()
-            .then(snapshots => {
-                const list = []
-                    snapshots.forEach(snapshot => {
-                        const product = snapshot.data()
-                        list.push(product)
-                    })
-                    setProducts(prevState => [...prevState, ...list])
-            })
         db.collection('categories')
             .orderBy('order','asc')
             .get()

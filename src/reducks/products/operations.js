@@ -15,9 +15,24 @@ export const deleteProduct = (id) => {
     }
 }
 
-export const fetchProducts = (gender, category, product) => {
+export const fetchProducts = (gender, category, keyWord) => {
     return async (dispatch) => {
-        if(product !== "") {
+        if(keyWord !== "") {
+            productsRef.get()
+                .then(snapshots => {
+                    const lists = []
+                        snapshots.forEach(snapshot => {
+                            const product = snapshot.data()
+                            const products = []
+                            products.push(product)
+                            products.filter(product => {
+                                if (product.name.includes(keyWord)) {
+                                    lists.push(product)
+                                }
+                            })
+                        })
+                        dispatch(fetchProductsAction(lists))
+                });
         } else {
             let query = productsRef.orderBy('updated_at','desc');
             query = (gender !== "") ? query.where('gender', '==', gender): query;
