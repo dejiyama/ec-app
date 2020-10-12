@@ -12,6 +12,10 @@
     ],
     "rewrites": [
       {
+        "source": "v1/customer",
+        "destination": "stripeCustomer"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
