@@ -8,5 +8,6 @@ export {default as SignIn} from './SignIn'
 export {default as OrderConfirm} from './OrderConfirm'
 export {default as OrderHistory} from './OrderHistory'
 export {default as FavoriteList} from './FavoriteList'
+export {default as UserMyPage} from './UserMyPage'
 
 
