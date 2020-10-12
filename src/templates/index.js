@@ -9,5 +9,6 @@ export {default as OrderConfirm} from './OrderConfirm'
 export {default as OrderHistory} from './OrderHistory'
 export {default as FavoriteList} from './FavoriteList'
 export {default as UserMyPage} from './UserMyPage'
+export {default as CheckoutWrapper} from './CheckoutWrapper'
 
 
