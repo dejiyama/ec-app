@@ -1,10 +1,26 @@
+import { makeStyles } from '@material-ui/core'
+import { yellow } from '@material-ui/core/colors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProductCard } from '../components/Products'
 import { fetchProducts } from '../reducks/products/operations'
 import { getProducts } from '../reducks/products/selectors'
 
+const useStyles = makeStyles(() => ({
+  pagination: {
+    backgroundColor: '#282c34',
+    marginRight: '0.3em',
+    display: 'inline-block',
+    alignItems: 'center',
+    fontSize: 'calc(10px + 2vmin)',
+    color: 'white',
+    width: '10%',
+    cursor:'pointer'
+  }
+}))
+
 const ProductList = () => {
+    const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector((state) => state)
     const products = getProducts(selector)
@@ -62,6 +78,7 @@ const ProductList = () => {
     const renderPageNumbers = pageNumbers.map(number => {
       return(
         <li
+          className={classes.pagination}
           key={number}
           id={number}
           onClick={(e) => handleClick(e)}
@@ -85,9 +102,11 @@ const ProductList = () => {
                 )}
             </div>
             <div className="module-spacer--medium"/>
-            <ul>
-              {renderPageNumbers}
-            </ul>
+            <div>
+              <ul>
+                {renderPageNumbers}
+              </ul>
+            </div>
         </section>
     )
 }
