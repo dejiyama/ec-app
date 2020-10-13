@@ -4,6 +4,7 @@ const initialState = {
     },
     users: {
         favorite: [],
+        email: "",
         cart: [],
         isSignedIn: false,
         orders: [],
