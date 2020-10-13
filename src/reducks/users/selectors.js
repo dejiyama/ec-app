@@ -7,6 +7,16 @@ export const getUserId = createSelector(
     state => state.uid
 )
 
+export const getCustomerId = createSelector(
+    [usersSelector],
+    state => state.customer_id
+)
+
+export const getPaymentMethodId = createSelector(
+    [usersSelector],
+    state => state.payment_method_id
+)
+
 export const getIsSignedIn = createSelector(
     [usersSelector],
     state => state.isSignedIn

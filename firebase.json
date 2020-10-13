@@ -12,6 +12,10 @@
     ],
     "rewrites": [
       {
+        "source": "/v1/paymentMethod",
+        "function": "retrievePaymentMethod"
+      },
+      {
         "source": "/v1/customer",
         "function": "stripeCustomer"
       },

@@ -62,10 +62,13 @@ export const listenAuthState = () => {
                     db.collection('users').doc(uid).get()
                         .then(snapshot => {
                             const data = snapshot.data()
-
+                            console.log(data.customer_id,'operation.customerid');
+                            console.log(data.payment_method_id,'operation.customerid');
                             dispatch(signInAction({
+                                customer_id: (data.customer_id) ? data.customer_id : "",
                                 email: data.email,
                                 isSignedIn: true,
+                                payment_method_id: (data.payment_method_id) ? data.payment_method_id : "",
                                 role: data.role,
                                 uid: uid,
                                 username: data.username
@@ -115,8 +118,10 @@ export const signIn = (email, password) => {
                             const data = snapshot.data()
 
                             dispatch(signInAction({
+                                customer_id: (data.customer_id) ? data.customer_id : "",
                                 email: data.email,
                                 isSignedIn: true,
+                                payment_method_id: (data.payment_method_id) ? data.payment_method_id : "",
                                 role: data.role,
                                 uid: uid,
                                 username: data.username
