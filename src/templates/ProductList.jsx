@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core'
-import { yellow } from '@material-ui/core/colors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProductCard } from '../components/Products'
@@ -27,7 +26,7 @@ const ProductList = () => {
 
     const [controlledProducts, setControlledProducts] = useState([])
     const [currentPage, SetCurrentPage] = useState(1)
-    const [todosPerPage, SetTodosPerPage] = useState(3)
+    const [productPerPage, SetProductPerPage] = useState(3)
 
     const query = selector.router.location.search
     const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : ""
@@ -39,8 +38,7 @@ const ProductList = () => {
       const list =[]
       products.length > 0 && (
         products.map(product => (
-          list.push(product),
-          console.log(list,'list')
+          list.push(product)
         ))
       )
       setControlledProducts(list)
@@ -50,29 +48,20 @@ const ProductList = () => {
         dispatch(fetchProducts(gender, category, decodeKeyWord))
     },[query])
 
-    const indexOfLastTodo = currentPage * todosPerPage
+    const indexOfLastProduct = currentPage * productPerPage
     
-    const indexOfFirstTodo = indexOfLastTodo - todosPerPage
+    const indexOfFirstProduct = indexOfLastProduct - productPerPage
     
-    const currentTodos = controlledProducts.slice(indexOfFirstTodo, indexOfLastTodo)
+    const currentProducts = controlledProducts.slice(indexOfFirstProduct, indexOfLastProduct)
     
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(controlledProducts.length/todosPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(controlledProducts.length/productPerPage); i++) {
       pageNumbers.push(i)
     }
 
-    console.log(controlledProducts,'product number');
-    console.log(pageNumbers,'page number');
-
-
     const handleClick = (event) => {
-      console.log(event.target.id,'event');
       SetCurrentPage(event.target.id)
       //curretnpageは1
-
-      console.log(currentTodos,'current');
-      console.log(indexOfFirstTodo, 'first');
-      console.log(indexOfLastTodo, 'last');
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
@@ -92,8 +81,8 @@ const ProductList = () => {
     return (
         <section className="c-section-wraping">
             <div className="p-grid__row">
-                {currentTodos.length > 0 && (
-                    currentTodos.map(product => (
+                {currentProducts.length > 0 && (
+                    currentProducts.map(product => (
                         <ProductCard
                             key={product.id} id={product.id} name={product.name}
                             images={product.images} price={product.price}

@@ -6,8 +6,10 @@ const initialState = {
         favorite: [],
         email: "",
         cart: [],
+        customer_id: "",
         isSignedIn: false,
         orders: [],
+        payment_method_id: "",
         role: "",
         uid: "",
         username: ""
