@@ -17,8 +17,8 @@ const PaymentEdit = () => {
     const [card, setCard] = useState({})
 
     const register = useCallback(() => {
-        dispatch(registerCard(stripe, elements))
-    }, [stripe, elements])
+        dispatch(registerCard(stripe, elements, customerId))
+    }, [stripe, elements, customerId])
 
     const goToBackToMyPage = useCallback(() => {
         dispatch(push('/user/mypage'))

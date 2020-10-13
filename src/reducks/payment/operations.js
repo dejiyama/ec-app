@@ -40,7 +40,23 @@ export const retrievePaymentMethod = async (paymentMethodId) => {
     return paymentMethod.card
 }
 
-export const registerCard = (stripe, elements) => {
+const updatePaymentMethod = async (customerId, prevPaymentMethodId, nextPaymentMethodId) => {
+    const response = await fetch(BASE_URL + "/v1/updatePaymentMethod", {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+            customerId: customerId,
+            prevPaymentMethodId: prevPaymentMethodId,
+            nextPaymentMethodId: nextPaymentMethodId
+        })
+    })
+
+    const paymentMethodResponse = await response.json()
+    const paymentMethod = JSON.parse(paymentMethodResponse.body)
+    return paymentMethod.card
+
+}
+export const registerCard = (stripe, elements, customerId) => {
     return async (dispatch, getState) => {
         const user = getState().users
         const email = user.email
@@ -48,49 +64,71 @@ export const registerCard = (stripe, elements) => {
         const username = user.username
         
         if (!stripe || !elements) {
-            // Stripe.js has not loaded yet. Make sure to disable
-            // form submission until Stripe.js has loaded.
-            return;
-          }
-      
-          // Get a reference to a mounted CardElement. Elements knows how
-          // to find your CardElement because there can only ever be one of
-          // each type of element.
-          const cardElement = elements.getElement(CardElement);
-      
-          // Use your card Element with other Stripe.js APIs
-          const {error, paymentMethod} = await stripe.createPaymentMethod({
-            type: 'card',
-            card: cardElement,
-          });
-      
-          if (error) {
-            console.log('[error]', error);
-            return;
-          }
+                // Stripe.js has not loaded yet. Make sure to disable
+                // form submission until Stripe.js has loaded.
+                return;
+            }
+        
+            // Get a reference to a mounted CardElement. Elements knows how
+            // to find your CardElement because there can only ever be one of
+            // each type of element.
+            const cardElement = elements.getElement(CardElement);
+        
+            // Use your card Element with other Stripe.js APIs
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+            });
+        
+            if (error) {
+                console.log('[error]', error);
+                return;
+            }
 
-          const paymentMethodId = paymentMethod.id
+            const paymentMethodId = paymentMethod.id
 
-          const customerData = await createCustomer(email, paymentMethodId, uid)
+            if (customerId === "") {
 
-          if (customerData.id === "") {
-              alert('カート情報の登録に失敗しました。')
-          } else {
-              const updateUserState = {
-                  customer_id: customerData.id,
-                  payment_method_id: paymentMethodId
-              }
-              db.collection('users').doc(uid)
-                .update(updateUserState)
-                .then(() => {
-                    dispatch(updateUserStateAction(updateUserState))
-                    dispatch(push('/user/mypage'))
-                }).catch((error) => {
-                    //Delete stripe customer
-                    alert('カード情報の登録に失敗しました。')
-                    return;
-                })
-              
-          }
+                const customerData = await createCustomer(email, paymentMethodId, uid)
+
+                if (customerData.id === "") {
+                    alert('カート情報の登録に失敗しました。')
+                } else {
+                    const updateUserState = {
+                        customer_id: customerData.id,
+                        payment_method_id: paymentMethodId
+                    }
+                    db.collection('users').doc(uid)
+                        .update(updateUserState)
+                        .then(() => {
+                            dispatch(updateUserStateAction(updateUserState))
+                            dispatch(push('/user/mypage'))
+                        }).catch((error) => {
+                            //Delete stripe customer
+                            alert('カード情報の登録に失敗しました。')
+                            return;
+                        })   
+                }
+            } else {
+                const prevPaymentMethodId = getState().users.payment_method_id
+                const updatedPaymentMethod = await updatePaymentMethod(customerId, prevPaymentMethodId, paymentMethodId)
+
+                if (!updatedPaymentMethod) {
+                    alert('お客様情報の登録に失敗しました。')
+                } else {
+                    const userState = {
+                        payment_method_id: paymentMethodId
+                    }
+                    db.collection('users').doc(uid)
+                        .update(userState)
+                        .then(() => {
+                            dispatch(updateUserStateAction(userState))
+                            alert('お客様情報を更新しました。')
+                            dispatch(push('/user/mypage'))
+                        }).catch(() => {
+                            alert('お客様情報の更新に失敗しました。')
+                        })
+                }
+            }
     }
 }
