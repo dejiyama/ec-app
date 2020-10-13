@@ -64,6 +64,7 @@ export const listenAuthState = () => {
                             const data = snapshot.data()
 
                             dispatch(signInAction({
+                                email: data.email,
                                 isSignedIn: true,
                                 role: data.role,
                                 uid: uid,
@@ -114,6 +115,7 @@ export const signIn = (email, password) => {
                             const data = snapshot.data()
 
                             dispatch(signInAction({
+                                email: data.email,
                                 isSignedIn: true,
                                 role: data.role,
                                 uid: uid,

@@ -12,8 +12,8 @@
     ],
     "rewrites": [
       {
-        "source": "v1/customer",
-        "destination": "stripeCustomer"
+        "source": "/v1/customer",
+        "function": "stripeCustomer"
       },
       {
         "source": "**",

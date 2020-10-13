@@ -16,7 +16,7 @@ const sendResponse = (response, statusCode, body) => {
 
 exports.stripeCustomer = functions.https.onRequest((req,res) => {
     const corsHandler = cors({origin: true})
-
+    console.log('hi');
     corsHandler(req, res, () => {
         //POSTメソッドかどうか判定
         if (req.method !== 'POST') {

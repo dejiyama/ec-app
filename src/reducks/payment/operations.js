@@ -5,10 +5,11 @@ import { updateUserStateAction } from '../users/action';
 
 const headers = new Headers();
 headers.set('Content-type', 'application/json')
-const BASE_URL = "http://172.20.10.2:5000"
+//firebaseのコンソールにdeployした時に、生成されている
+const BASE_URL = 'https://ec-app-dev-b424f.web.app'
 
 const createCustomer = async (email, paymentMethodId, uid) => {
-    const response = await fetch (BASE_URL + "/v1/customer", {
+    const response = await fetch(BASE_URL+"/v1/customer", {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
